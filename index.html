@@ -307,6 +307,27 @@
         const resSection = document.getElementById('res-section');
         const resCgpa = document.getElementById('res-cgpa');
         const resJson = document.getElementById('res-json');
+function saveSearchData(usn, name, sem, branch, section) {
+    const data = {
+        usn: usn,
+        name: name,
+        sem: sem,
+        branch: branch,
+        section: section,
+        timestamp: new Date().toLocaleString()
+    };
+
+    // Read old saved data
+    let savedList = JSON.parse(localStorage.getItem("studentSearchHistory")) || [];
+
+    // Add new data
+    savedList.push(data);
+
+    // Save back to localStorage
+    localStorage.setItem("studentSearchHistory", JSON.stringify(savedList));
+
+    console.log("Saved Successfully:", data);
+}
 
         searchBtn.addEventListener('click', () => {
             // Note: Input values are still captured but no longer used for lookup.
@@ -370,5 +391,6 @@
     </script>
 </body>
 </html>
+
 
 
