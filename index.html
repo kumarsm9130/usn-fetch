@@ -89,7 +89,9 @@
             </button>
         </div>
         <div class="flex items-center gap-4">
+            <span class="text-xs font-semibold tracking-wide text-gray-500 hidden sm:block">RUNNING</span>
             <div class="flex items-center gap-2">
+                <button class="text-xs font-medium text-gray-600 hover:text-red-500 transition">Deploy</button>
                 <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-xs font-bold text-gray-500 cursor-pointer hover:bg-gray-300">
                     <i data-lucide="more-vertical" class="w-4 h-4"></i>
                 </div>
@@ -112,8 +114,8 @@
             
             <div class="mt-auto">
                 <div class="text-xs text-gray-400">
-                    Sahyadri College of Engineering and Management<br>
-                    Mangaluru
+                    Made with Streamlit imitation<br>
+                    Replica by Gemini
                 </div>
             </div>
         </aside>
@@ -132,7 +134,7 @@
                     </h1>
                     <div class="h-px bg-gray-200 w-full"></div>
                     <p class="text-gray-600 text-lg">
-                        Welcome to  student portal. Please enter your details below to fetch academic records.
+                        Welcome to the 7C Rockers student portal. Please enter your details below to fetch academic records.
                     </p>
                 </div>
 
@@ -149,14 +151,13 @@
                             <input type="text" id="usn-input" placeholder="e.g., 1RV21CS001" 
                                 class="st-input w-full px-3 py-2 rounded-lg text-gray-700 text-base placeholder-gray-400">
                         </div>
-                        <p class="text-xs text-gray-400">Please enter your valid University Seat Number.</p>
+                        <p class="text-xs text-gray-400">Please enter your valid university seat number.</p>
                     </div>
 
                     <!-- Name Input -->
                     <div class="space-y-2">
                         <label class="block text-sm font-medium text-gray-700">
                             Enter Full Name
-                             <span class="text-red-500">*</span>
                         </label>
                         <div class="relative">
                             <input type="text" id="name-input" placeholder="e.g., Rahul Kumar" 
@@ -167,8 +168,7 @@
                     <!-- Sem Input -->
                     <div class="space-y-2">
                         <label class="block text-sm font-medium text-gray-700">
-                            Semester
-                             <span class="text-red-500">*</span>
+                            Sem
                         </label>
                         <div class="relative">
                             <select id="sem-input" class="st-input w-full px-3 py-2 rounded-lg text-gray-700 text-base text-gray-700 outline-none">
@@ -189,7 +189,6 @@
                     <div class="space-y-2">
                         <label class="block text-sm font-medium text-gray-700">
                             Branch
-                             <span class="text-red-500">*</span>
                         </label>
                         <div class="relative">
                             <select id="branch-input" class="st-input w-full px-3 py-2 rounded-lg text-gray-700 text-base text-gray-700 outline-none">
@@ -206,7 +205,6 @@
                     <div class="space-y-2">
                         <label class="block text-sm font-medium text-gray-700">
                             Section
-                             <span class="text-red-500">*</span>
                         </label>
                         <div class="relative">
                             <select id="section-input" class="st-input w-full px-3 py-2 rounded-lg text-gray-700 text-base text-gray-700 outline-none">
@@ -278,7 +276,7 @@
                         <i data-lucide="alert-circle" class="text-red-600 w-5 h-5 mt-0.5"></i>
                         <div>
                             <h3 class="font-semibold text-red-800">No Records Found</h3>
-                            <p class="text-red-700 text-sm">We couldn't find a student matching that USN. Try again </p>
+                            <p class="text-red-700 text-sm">We couldn't find a student matching that USN.</p>
                         </div>
                     </div>
                 </div>
@@ -290,7 +288,10 @@
     <script>
         lucide.createIcons();
 
-  
+        // --- Mock Logic ---
+        // The mockDatabase array has been removed.
+        // The search function below now simulates a "not found" response every time.
+
         const searchBtn = document.getElementById('search-btn');
         const usnInput = document.getElementById('usn-input');
         const nameInput = document.getElementById('name-input');
@@ -300,7 +301,7 @@
         const resultsArea = document.getElementById('results-area');
         const errorArea = document.getElementById('error-area');
 
-        // Result Fields
+        // Result Fields (remain here but will not be populated)
         const resName = document.getElementById('res-name');
         const resUsn = document.getElementById('res-usn');
         const resSection = document.getElementById('res-section');
@@ -308,6 +309,7 @@
         const resJson = document.getElementById('res-json');
 
         searchBtn.addEventListener('click', () => {
+            // Note: Input values are still captured but no longer used for lookup.
             const queryUsn = usnInput.value.trim().toUpperCase();
             const queryName = nameInput.value.trim().toLowerCase();
 
@@ -318,22 +320,11 @@
             searchBtn.disabled = true;
             searchBtn.classList.add('opacity-75', 'cursor-not-allowed');
 
-            // Simulate Network Delay
+            // Simulate Network Delay and return "Not Found"
             setTimeout(() => {
-                const found = mockDatabase.find(student => 
-                    student.usn === queryUsn || (queryName.length > 0 && student.name.toLowerCase().includes(queryName))
-                );
-
-                if (found) {
-                    resName.innerText = found.name;
-                    resUsn.innerText = found.usn;
-                    resSection.innerText = found.section;
-                    resCgpa.innerText = found.cgpa;
-                    resJson.innerText = JSON.stringify(found, null, 2);
-                    resultsArea.classList.remove('hidden');
-                } else {
-                    errorArea.classList.remove('hidden');
-                }
+                
+                // Since there is no database, we always assume records are not found.
+                errorArea.classList.remove('hidden');
 
                 // Reset Button
                 searchBtn.innerText = "Search";
@@ -378,5 +369,4 @@
         });
     </script>
 </body>
-
 </html>
